@@ -3,6 +3,8 @@ package net.digitalhazards.rtp.utils;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -13,7 +15,7 @@ import net.digitalhazards.rtp.RandomTeleport;
 public final class TeleportUtils {
 	private static final Set<Material> UNSAFE_MATERIALS = new HashSet<Material>();
 
-	private TeleportUtils() {
+	public TeleportUtils() {
 	}
 
 	public static boolean isBlockAboveAir(World world, int x, int y, int z) {
@@ -35,8 +37,9 @@ public final class TeleportUtils {
 		int y = (int)location.getY();
 		int z = location.getBlockZ();
 		y = location.getWorld().getHighestBlockYAt(location);
-
-		if(RandomTeleport.getPlugin().getConfigHandler().getBiomeBlacklist().contains(location.getBlock().getBiome().toString())) return null;
+		
+		RandomTeleport plugin = (RandomTeleport) Bukkit.getServer().getPluginManager().getPlugin("DHRandomTP");
+		if(plugin.getConfigHandler().getBiomeBlacklist().contains(location.getBlock().getBiome().toString())) return null;
 
 		while(isBlockAboveAir(world, x, y, z)) {
 			--y;
@@ -51,7 +54,8 @@ public final class TeleportUtils {
 	}
 
 	static {
-		List<String> blocks = RandomTeleport.getPlugin().getConfigHandler().getBlockBlacklist();
+		RandomTeleport plugin = (RandomTeleport) Bukkit.getServer().getPluginManager().getPlugin("DHRandomTP");
+		List<String> blocks = plugin.getConfigHandler().getBlockBlacklist();
 		for (String block : blocks) {
 			UNSAFE_MATERIALS.add(Material.valueOf(block));
 		}
