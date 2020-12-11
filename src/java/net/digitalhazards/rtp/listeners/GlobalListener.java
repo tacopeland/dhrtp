@@ -41,12 +41,12 @@ public class GlobalListener implements Listener {
          String line2 = ChatColor.stripColor(event.getLine(1));
          if (line1.equalsIgnoreCase("[RandomTP]")) {
             if (!player.hasPermission("randomtp.signs.create") && line1.equalsIgnoreCase("[RandomTP]")) {
-               this.messageHandler.error(player, "Insufficient Permissions!", "Permission Needed: randomtp.signs.create");
+               this.messageHandler.error(player, "Insufficient Permissions!\nPermission Needed: randomtp.signs.create");
                event.setCancelled(true);
                event.getBlock().breakNaturally();
             } else if (line2 != null && !line2.isEmpty()) {
                if (Bukkit.getWorld(line2) == null && !line2.equalsIgnoreCase("default")) {
-                  this.messageHandler.error(player, "Invalid world!", "The world \"" + line2 + "\" doesn't exist!");
+                  this.messageHandler.error(player, "Invalid world!\nThe world \"" + line2 + "\" doesn't exist!");
                   player.sendMessage(ChatColor.RED + "Make sure that you spelled the name exactly as on the world folder!");
                   event.setCancelled(true);
                   event.getBlock().breakNaturally();
@@ -56,7 +56,7 @@ public class GlobalListener implements Listener {
                   player.sendMessage(ChatColor.DARK_AQUA + "Successfully created RandomTP Sign! \nThis sign will teleport to " + ChatColor.AQUA + line2 + ChatColor.DARK_AQUA + "!");
                }
             } else {
-               this.messageHandler.error(player, "Improper Setup!", "Line 1: [RandomTP] \nLine 2: World name (or Default)");
+               this.messageHandler.error(player, "Improper Setup!\nLine 1: [RandomTP] \nLine 2: World name (or Default)");
                event.setCancelled(true);
                event.getBlock().breakNaturally();
             }
@@ -77,14 +77,11 @@ public class GlobalListener implements Listener {
                if (ChatColor.stripColor(sign.getLine(0)).equalsIgnoreCase("[RandomTP]")) {
                   Player player = event.getPlayer();
                   if (!player.hasPermission("randomtp.signs.use")) {
-                     this.messageHandler.error(player, "Insufficient Permissions", "Permission Needed: randomtp.signs.use");
+                     this.messageHandler.error(player, "Insufficient Permissions\nPermission Needed: randomtp.signs.use");
                   } else {
                      ConfigHandler ch = this.plugin.getConfigHandler();
-                     String worldName = ChatColor.stripColor(sign.getLine(1));
-                     World world = worldName != null && !worldName.isEmpty() && Bukkit.getWorld(worldName) != null ? Bukkit.getWorld(worldName) : event.getClickedBlock().getWorld();
-                     if (ch.isWorldRTPEnabled(world)) {
-                        this.plugin.teleportPlayer(player, world);
-                     }
+                     World world = ch.getRTPWorld();
+                     this.plugin.teleportPlayer(player, world);
                   }
                }
             }

@@ -6,16 +6,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class MessageHandler {
+	private static String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "D" + ChatColor.GRAY + "H" + ChatColor.DARK_GRAY + "] ";
+	
    public void message(Player player, String message, ChatColor color) {
-      player.sendMessage(color + message);
+      player.sendMessage(prefix + color + message);
    }
 
    public void message(Player player, String message) {
-      player.sendMessage(message);
+      player.sendMessage(prefix + message);
    }
 
-   public void error(Player player, String error, String usage) {
-      player.sendMessage(ChatColor.RED + "ERROR: " + error + "\n" + usage);
+   public void error(Player player, String error) {
+      player.sendMessage(prefix + ChatColor.RED + "ERROR: " + error);
    }
 
    public void error(CommandSender sender, String error, Level level) {

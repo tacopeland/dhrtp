@@ -30,7 +30,7 @@ public class CooldownHandler {
 
    public long getTimeLeft(Player player, World world) {
       if (((Map<UUID, Long>)this.cooldowns.get(world.getName())).containsKey(player.getUniqueId())) {
-         int cooldownTime = this.plugin.getConfigHandler().getCooldownTime(world);
+         int cooldownTime = this.plugin.getConfigHandler().getCooldownTime();
          long startTime = (System.currentTimeMillis() - (Long)((Map<UUID, Long>)this.cooldowns.get(world.getName())).get(player.getUniqueId())) / 1000L;
          return startTime - (long)cooldownTime;
       } else {
@@ -44,7 +44,7 @@ public class CooldownHandler {
       }
 
       if (((Map<UUID, Long>)this.cooldowns.get(world.getName())).containsKey(player.getUniqueId())) {
-         int cooldownTime = this.plugin.getConfigHandler().getCooldownTime(world);
+         int cooldownTime = this.plugin.getConfigHandler().getCooldownTime();
          return ((Long)((Map<UUID, Long>)this.cooldowns.get(world.getName())).get(player.getUniqueId()) - System.currentTimeMillis()) / 1000L >= (long)cooldownTime;
       } else {
          return true;

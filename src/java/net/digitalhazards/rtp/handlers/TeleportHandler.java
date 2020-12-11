@@ -14,9 +14,6 @@ public class TeleportHandler {
    private final World world;
    private int xCoord = -1;
    private int zCoord = -1;
-   private int xF;
-   private int yF;
-   private int zF;
 
    public TeleportHandler(RandomTeleport plugin, Player player, World world, int xCoord, int zCoord) {
       this.plugin = plugin;
@@ -27,30 +24,13 @@ public class TeleportHandler {
    }
 
    public void teleport() {
-      Location location = this.getLocation();
-      if (location == null) {
-         this.player.sendMessage(ChatColor.RED + "ERROR: Failed to find a safe teleport location!");
-      } else {
-         this.player.teleport(location);
-         this.player.sendMessage(ChatColor.DARK_AQUA + "Teleported to the location:");
-         this.player.sendMessage(ChatColor.DARK_AQUA + "X: " + ChatColor.AQUA + location.getBlockX());
-         this.player.sendMessage(ChatColor.DARK_AQUA + "Y: " + ChatColor.AQUA + (int)location.getY());
-         this.player.sendMessage(ChatColor.DARK_AQUA + "Z: " + ChatColor.AQUA + location.getBlockZ());
-         this.player.sendMessage(ChatColor.DARK_AQUA + "World: " + ChatColor.AQUA + this.world.getName());
-         this.player.sendMessage(" ");
-      }
-   }
-
-   public int getX() {
-      return this.xF;
-   }
-
-   public int getY() {
-      return this.yF;
-   }
-
-   public int getZ() {
-      return this.zF;
+	  Location location = getLocation();
+	  if (location == null) {
+	  	  plugin.getMessageHandler().error(player, "Failed to find a safe teleport location!");
+	  } else {
+	  	  player.teleport(location);
+	  	  plugin.getMessageHandler().message(player, "Successfully teleported!", ChatColor.GREEN);
+	  }
    }
 
    protected Location getLocation() {
@@ -60,25 +40,17 @@ public class TeleportHandler {
       x = this.randomizeType(x);
       z = this.randomizeType(z);
       int y = 250;
-      System.out.println(String.format("Searching with bounds at x: %d and z: %d...", this.xCoord, this.zCoord));
-      System.out.println(String.format("x: %d, y: %d, z: %d", x, y, z));
+      
       Location orig = new Location(this.world, (double)x, (double)y, (double)z);
-      System.out.println("Loading chunk...");
-      orig.getChunk().load();
       Location location = TeleportUtils.safeizeLocation(orig);
+      
       while (location == null && searchCount < 15) {
     	  searchCount++;
     	  x = this.randomizeType(this.plugin.getRandom().nextInt(Math.abs(this.xCoord)));
-    	  y = 250;
           z = this.randomizeType(this.plugin.getRandom().nextInt(Math.abs(this.zCoord)));
-          System.out.println(String.format("x: %d, y: %d, z: %d", x, y, z));
-          
-          orig = new Location(this.world, (double)x, (double)y, (double)z);
-          System.out.println("Loading chunk...");
-          orig.getChunk().load();
+          orig = new Location(this.world, (double)x, (double)y, (double)z);    
     	  location = TeleportUtils.safeizeLocation(orig);
       }
-      System.out.println("Done after " + searchCount + " tries");
       return location;
    }
 

@@ -2,7 +2,8 @@ package net.digitalhazards.rtp.handlers;
 
 import net.digitalhazards.rtp.RandomTeleport;
 import java.util.List;
-import java.util.Set;
+
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 public class ConfigHandler {
@@ -24,36 +25,24 @@ public class ConfigHandler {
       return this.blockBlacklist;
    }
 
-   public boolean isAutoUpdateEnabled() {
-      return this.plugin.getConfig().getBoolean("update.auto-update", false);
+   public World getRTPWorld() {
+	   String name = this.plugin.getConfig().getString("world");
+	   return Bukkit.getServer().getWorld(name);
    }
 
-   public boolean isWorldRTPEnabled(World world) {
-      Set<String> set = this.plugin.getConfig().getConfigurationSection("worlds").getKeys(false);
-      return set.contains(world.getName());
+   public int getMaxX() {
+      return (int)this.plugin.getConfig().getDouble("max-x", 1000.0D);
    }
 
-   public int getMaxX(World world) {
-      return (int)this.plugin.getConfig().getDouble("worlds." + world.getName() + ".max-x", 1000.0D);
+   public int getMaxZ() {
+      return (int)this.plugin.getConfig().getDouble("max-z", 1000.0D);
    }
 
-   public int getMaxZ(World world) {
-      return (int)this.plugin.getConfig().getDouble("worlds." + world.getName() + ".max-z", 1000.0D);
+   public boolean isCooldownEnabled() {
+      return this.getCooldownTime() != 0;
    }
 
-   public double getCost(World world) {
-      return this.plugin.getConfig().getDouble("worlds." + world.getName() + ".cost", 0.0D);
-   }
-
-   public boolean isCostEnabled(World world) {
-      return this.getCost(world) != 0.0D;
-   }
-
-   public boolean isCooldownEnabled(World world) {
-      return this.getCooldownTime(world) != 0;
-   }
-
-   public int getCooldownTime(World world) {
-      return this.plugin.getConfig().getInt("worlds." + world.getName() + ".cooldown", 0);
+   public int getCooldownTime() {
+      return this.plugin.getConfig().getInt("cooldown", 0);
    }
 }

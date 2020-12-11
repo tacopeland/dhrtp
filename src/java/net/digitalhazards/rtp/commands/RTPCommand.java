@@ -17,18 +17,18 @@ public class RTPCommand implements CommandExecutor {
    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
       if (command.getName().equalsIgnoreCase("randomtp")) {
          if (!(sender instanceof Player)) {
-            this.plugin.getMessageHandler().error(sender, "ERROR: A player is expected!", Level.WARNING);
+            this.plugin.getMessageHandler().error(sender, "A player is expected!", Level.WARNING);
             return true;
          } else {
             Player player = (Player)sender;
             if (!player.hasPermission("randomtp.tp")) {
-               this.plugin.getMessageHandler().error(player, "Insufficient permissions!", "Permissions Needed: randomtp.tp");
+               this.plugin.getMessageHandler().error(player, "Insufficient permissions!\nPermissions Needed: randomtp.tp");
                return true;
             } else if (args.length > 0) {
-               this.plugin.getMessageHandler().error(player, "Invalid Command Syntax!", "Usage: /randomtp");
+               this.plugin.getMessageHandler().error(player, "Invalid Command Syntax!\nUsage: /randomtp");
                return true;
             } else {
-               this.plugin.teleportPlayer(player, player.getWorld());
+               this.plugin.teleportPlayer(player, this.plugin.getConfigHandler().getRTPWorld());
                return true;
             }
          }

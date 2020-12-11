@@ -3,7 +3,6 @@ main: net.digitalhazards.rtp.RandomTeleport
 version: 0.0.1
 description: Teleports you to a random place in the wild.
 author: Timothy Copeland
-softdepend: [Vault]
 
 commands:
   randomtp:
