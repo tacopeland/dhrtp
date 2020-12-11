@@ -1,6 +1,6 @@
 name: RandomTeleport
 main: net.digitalhazards.rtp.RandomTeleport
-version: 0.0.1
+version: 0.0.2
 description: Teleports you to a random place in the wild.
 author: Timothy Copeland
 
