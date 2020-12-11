@@ -56,13 +56,13 @@ public class RandomTeleport extends JavaPlugin {
 
    public void teleportPlayer(Player player, World world) {
       if (this.configHandler.isCooldownEnabled() && !this.cooldownHandler.isCooldownsEmpty()) {
-         if (!this.cooldownHandler.check(player, world) && this.cooldownHandler.getTimeLeft(player, world) * -1L >= 1L) {
-            this.messageHandler.error(player, "You can not teleport yet!\nPlease wait " + this.cooldownHandler.getTimeLeft(player, world) * -1L + " seconds!");
+         if (!this.cooldownHandler.check(player) && this.cooldownHandler.getTimeLeft(player) * -1L >= 1L) {
+            this.messageHandler.error(player, "You can not teleport yet!\nPlease wait " + this.cooldownHandler.getTimeLeft(player) * -1L + " seconds!");
             return;
          }
 
          this.messageHandler.message(player, "You can teleport again!", ChatColor.GREEN);
-         this.cooldownHandler.clearCooldown(player, world);
+         this.cooldownHandler.clearCooldown(player);
       }
 
       int maxX = this.configHandler.getMaxX();
@@ -70,7 +70,7 @@ public class RandomTeleport extends JavaPlugin {
       TeleportHandler teleportHandler = new TeleportHandler(this, player, world, maxX, maxZ);
       teleportHandler.teleport();
       if (this.configHandler.isCooldownEnabled()) {
-         this.cooldownHandler.startCooldown(player, world);
+         this.cooldownHandler.startCooldown(player);
       }
 
    }
